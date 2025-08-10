@@ -16,7 +16,8 @@ end
 function M.prepare()
 	M.source_win = vim.api.nvim_get_current_win()
 	log.info('UI prepare. Source win ' .. M.source_win)
-	vim.fn.sign_define('GdbPC', { text = '', linehl = 'SignColumn' })
+    vim.api.nvim_set_hl(0, "PCSign", { fg = "#F08B51", bg = "none" })
+	vim.fn.sign_define('GdbPC', { text = '▶', linehl = 'PCSign', texthl = "PCSign" })
 end
 
 function M.cleanup()

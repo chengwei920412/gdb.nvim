@@ -25,6 +25,9 @@ function M:on_attach(cfg)
 end
 
 function M:on_detach()
+	for id, bp in pairs(M.bkpts) do
+		ui.sign_unset(bp, id)
+    end
 	ui.cleanup()
 	M.bkpts = {}
 end

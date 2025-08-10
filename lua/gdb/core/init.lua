@@ -98,15 +98,16 @@ function M.start(command, remote)
 	r_chan = remote_launch(remote.cmd)
 	-- Creating pty for MI
 	local pty = mi.launch()
-	local cmd = {}
-	vim.list_extend(cmd, command)
+	local cmd = {'gdb'}
 	vim.list_extend(cmd, base_args)
 	vim.list_extend(cmd, {"-iex", "new-ui mi " .. pty})
 	if remote.addr then
 		local rmt = remote.extended and "extended-remote" or "remote"
 		vim.list_extend(cmd, {"-ex", "target " .. rmt .. " " .. remote.addr})
 	end
+	vim.list_extend(cmd, command)
 	-- Launch terminal
+    --print(vim.inspect(cmd))
 	term_launch(cmd)
 end
 

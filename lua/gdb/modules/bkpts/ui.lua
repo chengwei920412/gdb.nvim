@@ -23,10 +23,12 @@ function M.setup(getter)
 		pattern = {'*.s', '*.S', '*.c', '*.h', '*.cpp', '*.hpp', '*.rs'},
 		callback = enter_callback
 	})
-	vim.fn.sign_define('GdbBP', { text = 'B', texthl = 'WarningMsg' })
-	vim.fn.sign_define('GdbBPe', { text = 'B', texthl = 'Normal' })
-	vim.fn.sign_define('GdbDP', { text = 'D', texthl = 'WarningMsg' })
-	vim.fn.sign_define('GdbDPe', { text = 'D', texthl = 'Normal' })
+    vim.api.nvim_set_hl(0, "GdbBPCN", { fg = "#00A000", bg = "none" })
+    vim.api.nvim_set_hl(0, "GdbBPCE", { fg = "#A00000", bg = "none" })
+	vim.fn.sign_define('GdbBP', { text = '●', texthl = 'GdbBPCN' })
+	vim.fn.sign_define('GdbBPe', { text = '●', texthl = 'GdbBPCE' })
+	vim.fn.sign_define('GdbDP', { text = '●', texthl = 'GdbBPCN' })
+	vim.fn.sign_define('GdbDPe', { text = '●', texthl = 'GdbBPCE' })
 end
 
 function M.cleanup()
