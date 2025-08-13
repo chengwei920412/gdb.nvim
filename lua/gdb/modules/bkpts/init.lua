@@ -17,21 +17,6 @@ local function getter()
 	return M.bkpts
 end
 
-function M:on_attach(cfg)
-	cfg = cfg or {}
-	vim.tbl_deep_extend('keep', deafult_cfg, cfg)
-
-	ui.setup(getter)
-end
-
-function M:on_detach()
-	for id, bp in pairs(M.bkpts) do
-		ui.sign_unset(bp, id)
-    end
-	ui.cleanup()
-	M.bkpts = {}
-end
-
 local function modify_handler(str)
 	log.debug("Breakpoint modified", M.bkpts)
 	local bkpt, id = mi.parse_internal(str, M.bkpts)
@@ -101,6 +86,26 @@ local function dprintf(opt)
 	-- read about command completion
 	core.mi_send('-dprintf-insert ' .. file .. ':' .. line .. ' ' .. cond)
 end
+
+function M:on_attach(cfg)
+	cfg = cfg or {}
+	vim.tbl_deep_extend('keep', deafult_cfg, cfg)
+
+	ui.setup(getter)
+    vim.api.nvim_create_user_command('GdbBpToggle', function() bkpt() end, {})
+end
+
+function M:on_detach()
+	vim.api.nvim_del_user_command('GdbBpToggle')
+
+	for id, bp in pairs(M.bkpts) do
+		ui.sign_unset(bp, id)
+    end
+	ui.cleanup()
+	M.bkpts = {}
+end
+
+
 
 function M:parsers()
 	return {
