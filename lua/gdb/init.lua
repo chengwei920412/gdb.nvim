@@ -56,6 +56,11 @@ function M.setup(config)
 	require'gdb.config'.setup(config)
 end
 
+function M.run()
+	ui.reset_pcline()
+	core.mi_send("-exec-run")
+end
+
 -- Only basic programm execution commands. Other commands exports via
 -- core.export field. But you can call them directly.
 function M.next()
